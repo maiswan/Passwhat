@@ -1,0 +1,8 @@
+{
+  "Length": 64,
+  "CustomSet": "0123456789abcdef",
+  "IsLatinEnabled": true,
+  "IsDigitEnabled": true,
+  "IsSymbolEnabled": true,
+  "IsCustomSetEnabled": false
+}
