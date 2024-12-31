@@ -8,6 +8,8 @@ namespace Maiswan.Passwhat.WpfApp;
 /// </summary>
 public partial class App : Application
 {
+    private const string ConfigPath = "Defaults.json";
+
 	public new static App Current => (App)Application.Current;
 
 	public IServiceProvider Services { get; }
@@ -15,6 +17,7 @@ public partial class App : Application
     public App()
     {
         Services = ConfigureServices();
+        Services.GetRequiredService<IConfigurationProvider>().Initialize(ConfigPath);
         InitializeComponent();
     }
 
@@ -23,6 +26,7 @@ public partial class App : Application
         ServiceCollection services = new();
 
         services.AddSingleton<IPasswordGenerator, CryptoPasswordGenerator>();
+        services.AddSingleton<IConfigurationProvider, JsonConfigurationProvider>();
         services.AddTransient<MainViewModel>();
 
         return services.BuildServiceProvider();

@@ -1,5 +1,3 @@
-using System.Reflection;
-using System.Runtime;
 using System.Windows;
 
 [assembly: ThemeInfo(

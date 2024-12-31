@@ -20,18 +20,18 @@ public partial class MainViewModel : ObservableObject, INotifyPropertyChanged
 	private string password = "";
 
 	[ObservableProperty]
-	private int length = 64;
+	private int length;
 
 	[ObservableProperty]
-	private bool isLatinEnabled = true;
+	private bool isLatinEnabled;
 	[ObservableProperty]
-	private bool isDigitEnabled = true;
+	private bool isDigitEnabled;
 	[ObservableProperty]
-	private bool isSymbolEnabled = true;
+	private bool isSymbolEnabled;
 	[ObservableProperty]
-	private bool isCustomSetEnabled = false;
+	private bool isCustomSetEnabled;
 	[ObservableProperty]
-	private string customSet = "0123456789abcdef";
+	private string customSet;
 
 	partial void OnLengthChanged(int value) => Refresh();
 	partial void OnIsLatinEnabledChanged(bool value) => Refresh();
@@ -68,9 +68,17 @@ public partial class MainViewModel : ObservableObject, INotifyPropertyChanged
 		Password = new(generator.GeneratePassword(uniquePool, Length));
 	}
 
-    public MainViewModel(IPasswordGenerator generator)
+    public MainViewModel(IPasswordGenerator generator, IConfigurationProvider config)
     {
 		this.generator = generator;
+
+		Length = config.Configuration.Length;
+		CustomSet = config.Configuration.CustomSet;
+		IsLatinEnabled = config.Configuration.IsLatinEnabled;
+		IsDigitEnabled = config.Configuration.IsDigitEnabled;
+		IsSymbolEnabled = config.Configuration.IsSymbolEnabled;
+		IsCustomSetEnabled = config.Configuration.IsCustomSetEnabled;
+
 		Refresh();
     }
 

@@ -12,11 +12,20 @@
     <Company></Company>
     <Product></Product>
     <Authors>maiswan</Authors>
+	<Version>1.1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Defaults.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties defaults_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
