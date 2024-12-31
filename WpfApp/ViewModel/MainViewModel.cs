@@ -12,7 +12,7 @@ public partial class MainViewModel : ObservableObject, INotifyPropertyChanged
 	public const double MaxLength = 128;
 
 	private const string UpperLatin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private const string LowerLatin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private const string LowerLatin = "abcdefghijklmnopqrstuvwxyz";
 	private const string Digit = "0123456789";
 	private const string Symbol = "`~!@#$%^&*()_+-=[]{}\\|;':\",./<>?";
 
