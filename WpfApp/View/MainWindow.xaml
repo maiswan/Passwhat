@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Maiswan.Passwhat.WpfApp" d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         mc:Ignorable="d"
-        Title="Maiswan.Passwhat" Height="350" Width="600">
+        Title="Maiswan.Passwhat" Height="350" Width="600"
+        Closing="Window_Closing">
     <Window.Resources>
         <Style TargetType="CheckBox">
             <Setter Property="Margin" Value="0,4,0,2"/>
