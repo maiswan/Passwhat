@@ -81,10 +81,11 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="4*"/>
                                             <ColumnDefinition Width="*" MinWidth="64" MaxWidth="128"/>
+                                            <ColumnDefinition Width="*" MinWidth="64" MaxWidth="128"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBox Text="{Binding ., Mode=OneWay}" IsReadOnly="True" IsReadOnlyCaretVisible="True" Padding="4,2" VerticalAlignment="Center"/>
                                         <Button Grid.Column="1" Command="{Binding DataContext.CopyCommand, ElementName=Root}" CommandParameter="{Binding}" Content="Copy" Padding="8,2" Margin="2,1,0,1"/>
-
+                                        <Button Grid.Column="2" Command="{Binding DataContext.RemoveCommand, ElementName=Root}" CommandParameter="{Binding}" Content="Remove" Padding="8,2" Margin="2,1,0,1"/>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

@@ -66,6 +66,13 @@ public partial class MainViewModel : ObservableObject
 	}
 
 	[RelayCommand]
+	private void Remove(string? password)
+	{
+		if (password is null) { return; }
+		CopiedPasswords.Remove(password);
+	}
+
+	[RelayCommand]
 	private void Refresh()
 	{
 		string pool = "";
