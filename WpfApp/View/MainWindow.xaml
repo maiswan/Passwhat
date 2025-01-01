@@ -5,51 +5,97 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Maiswan.Passwhat.WpfApp" d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         mc:Ignorable="d"
-        Title="Maiswan.Passwhat" Height="350" Width="600">
+        Title="Maiswan.Passwhat" Height="350" Width="600"
+        Closing="Window_Closing">
     <Window.Resources>
         <Style TargetType="CheckBox">
-            <Setter Property="Margin" Value="0,4"/>
+            <Setter Property="Margin" Value="0,4,0,2"/>
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Name="Root">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="24,12">
-            <TextBlock Text="Password Generator" FontSize="16" FontWeight="Bold"/>
+        <Grid Margin="24,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="*" MinWidth="64" MaxWidth="128"/>
+                <ColumnDefinition Width="*" MinWidth="64" MaxWidth="128"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Padding="4"
+                 Text="{Binding Password}"
+                 IsReadOnly="True" IsReadOnlyCaretVisible="True"
+                 FontSize="16" FontFamily="Cascadia Code,Courier New"/>
 
-            <DockPanel Margin="0,8,0,16">
-                <Button DockPanel.Dock="Right" Content="_New" Padding="24,0" Command="{Binding RefreshCommand}"/>
-                <Button DockPanel.Dock="Right" Content="_Copy" Padding="24,0" Margin="2,0" Command="{Binding CopyCommand}"/>
 
-                <TextBox DockPanel.Dock="Left" Padding="4"
-                     Text="{Binding Password}"
-                     IsReadOnly="True" IsReadOnlyCaretVisible="True"
-                     FontSize="16" FontFamily="Cascadia Code,Courier New"/>
-            </DockPanel>
-            
-            <TextBlock Text="Length" Margin="0,0,0,4"/>
-            <DockPanel>
-                <TextBox Margin="0,0,16,0" Padding="4" Width="48" Text="{Binding Length, UpdateSourceTrigger=PropertyChanged}"/>
-                <Slider Minimum="{x:Static local:MainViewModel.MinLength}" Maximum="{x:Static local:MainViewModel.MaxLength}"
+            <Button Grid.Column="1" Content="_Copy" Padding="8,0" Margin="2,0" Command="{Binding CopyCommand}"/>
+            <Button Grid.Column="2" Content="_New" Padding="8,0" Command="{Binding RefreshCommand}"/>
+
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" Margin="24,0,24,8" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <GroupBox Header="Options" Padding="8">
+                    <StackPanel>
+                        <TextBlock Text="Length" Margin="0,0,0,4"/>
+                        <DockPanel>
+                            <TextBox Margin="0,0,16,0" Padding="4" Width="48" Text="{Binding Length, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Slider Minimum="{x:Static local:MainViewModel.MinLength}" Maximum="{x:Static local:MainViewModel.MaxLength}"
                         Value="{Binding Length, UpdateSourceTrigger=PropertyChanged}"
                         VerticalAlignment="Center"/>
-            </DockPanel>
-            
-            <TextBlock Text="Character pool" Margin="0,16,0,4"/>
-            <CheckBox Content="_English letters" IsChecked="{Binding IsLatinEnabled}"/>
-            <CheckBox Content="_Digits" IsChecked="{Binding IsDigitEnabled}"/>
-            <CheckBox Content="_Symbols" IsChecked="{Binding IsSymbolEnabled}"/>
-            <DockPanel>
-                <CheckBox Content="_Others" IsChecked="{Binding IsCustomSetEnabled}"/>
-                <TextBox Margin="16,2,0,2" Text="{Binding CustomSet, UpdateSourceTrigger=PropertyChanged}"/>
-            </DockPanel>
-        </StackPanel>
+                        </DockPanel>
 
-        <StatusBar Grid.Row="1" Padding="24,4" VerticalAlignment="Bottom">
+                        <TextBlock Text="Character pool" Margin="0,12,0,0"/>
+                        <CheckBox Content="_English letters" IsChecked="{Binding IsLatinEnabled}"/>
+                        <CheckBox Content="_Digits" IsChecked="{Binding IsDigitEnabled}"/>
+                        <CheckBox Content="_Symbols" IsChecked="{Binding IsSymbolEnabled}"/>
+                        <DockPanel>
+                            <CheckBox Content="_Others" IsChecked="{Binding IsCustomSetEnabled}"/>
+                            <TextBox Margin="16,2,0,2" Padding="2,0" Text="{Binding CustomSet, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Copied Passwords" Padding="8,16" Margin="0,12">
+                    <Grid>
+                        <TextBlock Text="No copied passwords yet.">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CopiedPasswords.Count}" Value="0">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <ItemsControl ItemsSource="{Binding CopiedPasswords}" BorderThickness="0" Grid.IsSharedSizeScope="True">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="*" MinWidth="64" MaxWidth="128"/>
+                                            <ColumnDefinition Width="*" MinWidth="64" MaxWidth="128"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Text="{Binding ., Mode=OneWay}" IsReadOnly="True" IsReadOnlyCaretVisible="True" Padding="4,2" VerticalAlignment="Center"/>
+                                        <Button Grid.Column="1" Command="{Binding DataContext.CopyCommand, ElementName=Root}" CommandParameter="{Binding}" Content="Copy" Padding="8,2" Margin="2,1,0,1"/>
+                                        <Button Grid.Column="2" Command="{Binding DataContext.RemoveCommand, ElementName=Root}" CommandParameter="{Binding}" Content="Remove" Padding="8,2" Margin="2,1,0,1"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StatusBar Grid.Row="2" Padding="24,4" VerticalAlignment="Bottom">
             <StatusBarItem Content="{Binding Status}"/>
             <StatusBarItem HorizontalAlignment="Right">
                 <TextBlock Text="{Binding Version, StringFormat='Build {0}'}"/>

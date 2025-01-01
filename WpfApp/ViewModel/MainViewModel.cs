@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Windows;
 
 namespace Maiswan.Passwhat.WpfApp;
-public partial class MainViewModel : ObservableObject, INotifyPropertyChanged
+public partial class MainViewModel : ObservableObject
 {
 	public static Version? Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 	public const double MinLength = 8;
@@ -43,13 +43,33 @@ public partial class MainViewModel : ObservableObject, INotifyPropertyChanged
 	partial void OnIsCustomSetEnabledChanged(bool value) => Refresh();
 	partial void OnCustomSetChanged(string value) => Refresh();
 
-	[RelayCommand]
-	private void Copy()
-	{
-		if (string.IsNullOrWhiteSpace(Password)) { return; }
 
-		Clipboard.SetText(Password);
-		Status = $"Copied password {TruncatePassword(Password)} to clipboard";
+	public ObservableCollection<string> CopiedPasswords { get; } = [];
+
+	[ObservableProperty]
+	private string? selectedCopiedPassword;
+
+	partial void OnSelectedCopiedPasswordChanged(string? value) => Copy(value);
+
+
+	[RelayCommand]
+	private void Copy(string? password)
+	{
+		password ??= Password;
+		if (string.IsNullOrWhiteSpace(password)) { return; }
+
+		Clipboard.SetText(password);
+		Status = $"Copied password {TruncatePassword(password)} to clipboard";
+
+		if (CopiedPasswords.Contains(password)) { return; }
+		CopiedPasswords.Insert(0, Password);
+	}
+
+	[RelayCommand]
+	private void Remove(string? password)
+	{
+		if (password is null) { return; }
+		CopiedPasswords.Remove(password);
 	}
 
 	[RelayCommand]
