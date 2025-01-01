@@ -20,6 +20,9 @@ public partial class MainViewModel : ObservableObject, INotifyPropertyChanged
 	private string password = "";
 
 	[ObservableProperty]
+	private string status = "";
+
+	[ObservableProperty]
 	private int length;
 
 	[ObservableProperty]
@@ -46,6 +49,7 @@ public partial class MainViewModel : ObservableObject, INotifyPropertyChanged
 		if (string.IsNullOrWhiteSpace(Password)) { return; }
 
 		Clipboard.SetText(Password);
+		Status = $"Copied password {TruncatePassword(Password)} to clipboard";
 	}
 
 	[RelayCommand]
@@ -66,6 +70,13 @@ public partial class MainViewModel : ObservableObject, INotifyPropertyChanged
 		char[] uniquePool = pool.ToCharArray().Distinct().ToArray();
 
 		Password = new(generator.GeneratePassword(uniquePool, Length));
+		Status = $"Generated password {TruncatePassword(Password)}";
+	}
+
+	private static string TruncatePassword(string password)
+	{
+		if (password.Length < 8) { return password; }
+		return password[0..7] + "...";
 	}
 
     public MainViewModel(IPasswordGenerator generator, IConfigurationProvider config)

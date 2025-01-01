@@ -12,10 +12,13 @@
         </Style>
     </Window.Resources>
 
-    <DockPanel Margin="24,12">
-        <TextBlock DockPanel.Dock="Bottom" Text="{Binding Version, StringFormat='maiswan ⋅ Build {0}'}"/>
-        
-        <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="24,12">
             <TextBlock Text="Password Generator" FontSize="16" FontWeight="Bold"/>
 
             <DockPanel Margin="0,8,0,16">
@@ -27,7 +30,6 @@
                      IsReadOnly="True" IsReadOnlyCaretVisible="True"
                      FontSize="16" FontFamily="Cascadia Code,Courier New"/>
             </DockPanel>
-
             
             <TextBlock Text="Length" Margin="0,0,0,4"/>
             <DockPanel>
@@ -46,5 +48,12 @@
                 <TextBox Margin="16,2,0,2" Text="{Binding CustomSet, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
         </StackPanel>
-    </DockPanel>
+
+        <StatusBar Grid.Row="1" Padding="24,4" VerticalAlignment="Bottom">
+            <StatusBarItem Content="{Binding Status}"/>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock Text="{Binding Version, StringFormat='Build {0}'}"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
 </Window>
