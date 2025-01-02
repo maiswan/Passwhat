@@ -1,8 +1,14 @@
-![A screenshot of the Passwhat main interface, showing a generated password under default configuration.](https://github.com/user-attachments/assets/854d3f13-146c-4b6b-8e5b-a9e9b43aff2a)
+![A screenshot of the Passwhat v1.3.0 main interface, showing a generated password under default configuration.](https://github.com/user-attachments/assets/64370fb7-82a9-4271-a695-9b7f851b7010)
 
-This is yet another password generator. It exists because
+## What?
+
+This is another password generator. It has a...
+* customizable character set and length
+* list of copied passwords so you don't lose them accidentally (cleared on exit of course)
+
+## Why?
 
 * [don't trust online password generators](https://security.stackexchange.com/a/17943)
-* [don't reinvent the CSPRNG](https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator)
+* [don't reinvent the CSPRNG](https://www.cryptofails.com/post/72902772336/how-not-to-csprng)
 
-so the natural course of action is to roll my own solution and hopefully someone will audit it.
+The natural course of action is to roll my own solution and hopefully someone will audit it.
