@@ -16,11 +16,12 @@
     <Grid Name="Root">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Margin="24,12">
+        <Grid Margin="24,12,24,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="*" MinWidth="64" MaxWidth="128"/>
@@ -31,13 +32,24 @@
                  IsReadOnly="True" IsReadOnlyCaretVisible="True"
                  FontSize="16" FontFamily="Cascadia Code,Courier New"/>
 
-
             <Button Grid.Column="1" Content="_Copy" Padding="8,0" Margin="2,0" Command="{Binding CopyCommand}"/>
             <Button Grid.Column="2" Content="_New" Padding="8,0" Command="{Binding RefreshCommand}"/>
-
         </Grid>
 
-        <ScrollViewer Grid.Row="1" Margin="24,0,24,8" VerticalScrollBarVisibility="Auto">
+        <TextBlock Margin="24,4"  Grid.Row="1" >
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsPasswordConfigWeak}" Value="True">
+                            <Setter Property="Text" Value="Weak password"/>
+                            <Setter Property="Foreground" Value="DarkRed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <ScrollViewer Grid.Row="2" Margin="24,0,24,8" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <GroupBox Header="Options" Padding="8">
                     <StackPanel>
@@ -60,7 +72,7 @@
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox Header="Copied Passwords" Padding="8,16" Margin="0,12">
+                <GroupBox Header="Copied Passwords" Padding="8,16" Margin="0,8,0,0">
                     <Grid>
                         <TextBlock Text="No copied passwords yet.">
                             <TextBlock.Style>
@@ -95,7 +107,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <StatusBar Grid.Row="2" Padding="24,4" VerticalAlignment="Bottom">
+        <StatusBar Grid.Row="3" Padding="24,4" VerticalAlignment="Bottom">
             <StatusBarItem Content="{Binding Status}"/>
             <StatusBarItem HorizontalAlignment="Right">
                 <TextBlock Text="{Binding Version, StringFormat='Build {0}'}"/>

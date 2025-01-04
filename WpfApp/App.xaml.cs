@@ -26,7 +26,8 @@ public partial class App : Application
         ServiceCollection services = new();
 
         services.AddSingleton<IPasswordGenerator, CryptoPasswordGenerator>();
-        services.AddSingleton<IConfigurationProvider, JsonConfigurationProvider>();
+		services.AddSingleton<IPasswordStrengthCalculator, EntropyCalculator>();
+		services.AddSingleton<IConfigurationProvider, JsonConfigurationProvider>();
         services.AddTransient<MainViewModel>();
 
         return services.BuildServiceProvider();
