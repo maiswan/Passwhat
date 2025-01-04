@@ -51,6 +51,8 @@ public partial class MainViewModel : ObservableObject
 
 	partial void OnSelectedCopiedPasswordChanged(string? value) => Copy(value);
 
+	[ObservableProperty]
+	private bool isPasswordConfigWeak;
 
 	[RelayCommand]
 	private void Copy(string? password)
@@ -90,6 +92,7 @@ public partial class MainViewModel : ObservableObject
 		char[] uniquePool = pool.ToCharArray().Distinct().ToArray();
 
 		Password = new(generator.GeneratePassword(uniquePool, Length));
+		IsPasswordConfigWeak = strength.IsPasswordWeak(Length, uniquePool.Length);
 		Status = $"Generated password {TruncatePassword(Password)}";
 	}
 
@@ -99,9 +102,10 @@ public partial class MainViewModel : ObservableObject
 		return password[0..7] + "...";
 	}
 
-    public MainViewModel(IPasswordGenerator generator, IConfigurationProvider config)
+    public MainViewModel(IPasswordGenerator generator, IPasswordStrengthCalculator strength, IConfigurationProvider config)
     {
 		this.generator = generator;
+		this.strength = strength;
 
 		Length = config.Configuration.Length;
 		CustomSet = config.Configuration.CustomSet;
@@ -114,4 +118,5 @@ public partial class MainViewModel : ObservableObject
     }
 
 	private readonly IPasswordGenerator generator;
+	private readonly IPasswordStrengthCalculator strength;
 }
