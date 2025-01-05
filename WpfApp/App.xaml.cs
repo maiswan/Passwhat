@@ -5,16 +5,11 @@ using System.Windows.Markup;
 
 namespace Maiswan.Passwhat.WpfApp;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
 public partial class App : Application
 {
     private const string ConfigPath = "Defaults.json";
 
 	public new static App Current => (App)Application.Current;
-
-	public IServiceProvider Services { get; }
 
     public App()
     {
@@ -26,7 +21,10 @@ public partial class App : Application
         InitializeComponent();
 		InitializeCulture(config.Configuration.Culture);
 	}
-    private static ServiceProvider ConfigureServices()
+
+	public IServiceProvider Services { get; }
+
+	private static ServiceProvider ConfigureServices()
     {
         ServiceCollection services = new();
 

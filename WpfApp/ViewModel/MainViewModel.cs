@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows;
 
 namespace Maiswan.Passwhat.WpfApp;
+
 public partial class MainViewModel : ObservableObject
 {
 	public static Version? Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
@@ -16,43 +17,62 @@ public partial class MainViewModel : ObservableObject
 	private const string Digit = "0123456789";
 	private const string Symbol = "`~!@#$%^&*()_+-=[]{}\\|;':\",./<>?";
 
+	private readonly IPasswordGenerator generator;
+	private readonly IPasswordStrengthCalculator strength;
+	public MainViewModel(IPasswordGenerator generator, IPasswordStrengthCalculator strength, IConfigurationProvider config)
+	{
+		this.generator = generator;
+		this.strength = strength;
+
+		Length = config.Configuration.Length;
+		CustomSet = config.Configuration.CustomSet;
+		IsLatinEnabled = config.Configuration.IsLatinEnabled;
+		IsDigitEnabled = config.Configuration.IsDigitEnabled;
+		IsSymbolEnabled = config.Configuration.IsSymbolEnabled;
+		IsCustomSetEnabled = config.Configuration.IsCustomSetEnabled;
+
+		Refresh();
+	}
+
+	public ObservableCollection<string> CopiedPasswords { get; } = [];
+
 	[ObservableProperty]
-	private string password = "";
+	private string customSet;
+	partial void OnCustomSetChanged(string value) => Refresh();
+
+	[ObservableProperty]
+	private bool isLatinEnabled;
+	partial void OnIsLatinEnabledChanged(bool value) => Refresh();
+
+	[ObservableProperty]
+	private bool isDigitEnabled;
+	partial void OnIsDigitEnabledChanged(bool value) => Refresh();
+
+	[ObservableProperty]
+	private bool isSymbolEnabled;
+	partial void OnIsSymbolEnabledChanged(bool value) => Refresh();
+
+	[ObservableProperty]
+	private bool isCustomSetEnabled;
+	partial void OnIsCustomSetEnabledChanged(bool value) => Refresh();
+
+	[ObservableProperty]
+	private bool isPasswordConfigWeak;
 
 	[ObservableProperty]
 	private LogEntry latestAction = new();
 
 	[ObservableProperty]
 	private int length;
-
-	[ObservableProperty]
-	private bool isLatinEnabled;
-	[ObservableProperty]
-	private bool isDigitEnabled;
-	[ObservableProperty]
-	private bool isSymbolEnabled;
-	[ObservableProperty]
-	private bool isCustomSetEnabled;
-	[ObservableProperty]
-	private string customSet;
-
 	partial void OnLengthChanged(int value) => Refresh();
-	partial void OnIsLatinEnabledChanged(bool value) => Refresh();
-	partial void OnIsDigitEnabledChanged(bool value) => Refresh();
-	partial void OnIsSymbolEnabledChanged(bool value) => Refresh();
-	partial void OnIsCustomSetEnabledChanged(bool value) => Refresh();
-	partial void OnCustomSetChanged(string value) => Refresh();
 
-
-	public ObservableCollection<string> CopiedPasswords { get; } = [];
+	[ObservableProperty]
+	private string password = "";
 
 	[ObservableProperty]
 	private string? selectedCopiedPassword;
-
 	partial void OnSelectedCopiedPasswordChanged(string? value) => Copy(value);
 
-	[ObservableProperty]
-	private bool isPasswordConfigWeak;
 
 	[RelayCommand]
 	private void Copy(string? password)
@@ -65,13 +85,6 @@ public partial class MainViewModel : ObservableObject
 
 		if (CopiedPasswords.Contains(password)) { return; }
 		CopiedPasswords.Insert(0, Password);
-	}
-
-	[RelayCommand]
-	private void Remove(string? password)
-	{
-		if (password is null) { return; }
-		CopiedPasswords.Remove(password);
 	}
 
 	[RelayCommand]
@@ -96,21 +109,10 @@ public partial class MainViewModel : ObservableObject
 		LatestAction = new(LogAction.Generation, Password);
 	}
 
-    public MainViewModel(IPasswordGenerator generator, IPasswordStrengthCalculator strength, IConfigurationProvider config)
-    {
-		this.generator = generator;
-		this.strength = strength;
-
-		Length = config.Configuration.Length;
-		CustomSet = config.Configuration.CustomSet;
-		IsLatinEnabled = config.Configuration.IsLatinEnabled;
-		IsDigitEnabled = config.Configuration.IsDigitEnabled;
-		IsSymbolEnabled = config.Configuration.IsSymbolEnabled;
-		IsCustomSetEnabled = config.Configuration.IsCustomSetEnabled;
-
-		Refresh();
-    }
-
-	private readonly IPasswordGenerator generator;
-	private readonly IPasswordStrengthCalculator strength;
+	[RelayCommand]
+	private void Remove(string? password)
+	{
+		if (password is null) { return; }
+		CopiedPasswords.Remove(password);
+	}
 }
