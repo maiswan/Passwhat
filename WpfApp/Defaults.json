@@ -4,5 +4,6 @@
   "IsLatinEnabled": true,
   "IsDigitEnabled": true,
   "IsSymbolEnabled": true,
-  "IsCustomSetEnabled": false
+  "IsCustomSetEnabled": false,
+  "Culture": "zh-hk"
 }

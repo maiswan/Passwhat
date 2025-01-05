@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Markup;
 
 namespace Maiswan.Passwhat.WpfApp;
 
@@ -17,10 +19,13 @@ public partial class App : Application
     public App()
     {
         Services = ConfigureServices();
-        Services.GetRequiredService<IConfigurationProvider>().Initialize(ConfigPath);
-        InitializeComponent();
-    }
 
+		IConfigurationProvider config = Services.GetRequiredService<IConfigurationProvider>();
+		config.Initialize(ConfigPath);
+
+        InitializeComponent();
+		InitializeCulture(config.Configuration.Culture);
+	}
     private static ServiceProvider ConfigureServices()
     {
         ServiceCollection services = new();
@@ -32,4 +37,17 @@ public partial class App : Application
 
         return services.BuildServiceProvider();
     }
+
+	private static void InitializeCulture(string culture)
+	{
+		CultureInfo info = new(culture);
+
+		Thread.CurrentThread.CurrentCulture = info;
+		Thread.CurrentThread.CurrentUICulture = info;
+
+		FrameworkElement.LanguageProperty.OverrideMetadata(
+			typeof(FrameworkElement),
+			new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag))
+		);
+	}
 }

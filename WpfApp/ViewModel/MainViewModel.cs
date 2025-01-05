@@ -20,7 +20,7 @@ public partial class MainViewModel : ObservableObject
 	private string password = "";
 
 	[ObservableProperty]
-	private string status = "";
+	private LogEntry latestAction = new();
 
 	[ObservableProperty]
 	private int length;
@@ -61,7 +61,7 @@ public partial class MainViewModel : ObservableObject
 		if (string.IsNullOrWhiteSpace(password)) { return; }
 
 		Clipboard.SetText(password);
-		Status = $"Copied password {TruncatePassword(password)} to clipboard";
+		LatestAction = new(LogAction.Copy, password);
 
 		if (CopiedPasswords.Contains(password)) { return; }
 		CopiedPasswords.Insert(0, Password);
@@ -93,13 +93,7 @@ public partial class MainViewModel : ObservableObject
 
 		Password = new(generator.GeneratePassword(uniquePool, Length));
 		IsPasswordConfigWeak = strength.IsPasswordWeak(Length, uniquePool.Length);
-		Status = $"Generated password {TruncatePassword(Password)}";
-	}
-
-	private static string TruncatePassword(string password)
-	{
-		if (password.Length < 8) { return password; }
-		return password[0..7] + "...";
+		LatestAction = new(LogAction.Generation, Password);
 	}
 
     public MainViewModel(IPasswordGenerator generator, IPasswordStrengthCalculator strength, IConfigurationProvider config)
