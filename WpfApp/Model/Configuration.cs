@@ -8,4 +8,5 @@ public record Configurations
 	public bool IsDigitEnabled { get; init; } = true;
 	public bool IsSymbolEnabled { get; init; } = true;
 	public bool IsCustomSetEnabled { get; init; } = true;
+	public string Culture { get; init; } = "";
 }
