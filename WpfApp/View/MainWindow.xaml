@@ -13,6 +13,11 @@
         </Style>
     </Window.Resources>
 
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="C" Command="{Binding CopyCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding RefreshCommand}"/>
+    </Window.InputBindings>
+
     <Grid Name="Root">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
