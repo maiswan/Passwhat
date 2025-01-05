@@ -2,6 +2,6 @@
 
 public enum LogAction
 {
-	Generation,
 	Copy,
+	Generation,
 }
