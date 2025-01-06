@@ -13,14 +13,10 @@ public class EntropyCalculator : IPasswordStrengthCalculator
 		return IsPasswordWeak(entropy);
 	}
 
-	public bool IsPasswordWeak(int length, string pool)
-	{
-		return IsPasswordWeak(length, pool.Length);
-	}
-
 	public bool IsPasswordWeak(string password, string pool)
 	{
-		return IsPasswordWeak(password.Length, pool);
+		IEnumerable<char> uniquePool = pool.Distinct();
+		return IsPasswordWeak(password.Length, uniquePool.Count());
 	}
 }
 
