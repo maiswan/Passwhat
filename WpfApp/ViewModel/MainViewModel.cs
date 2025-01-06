@@ -12,13 +12,13 @@ public partial class MainViewModel : ObservableObject
 	public const double MinLength = 8;
 	public const double MaxLength = 128;
 
-	private const string UpperLatin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private const string LowerLatin = "abcdefghijklmnopqrstuvwxyz";
-	private const string Digit = "0123456789";
-	private const string Symbol = "`~!@#$%^&*()_+-=[]{}\\|;':\",./<>?";
+	private static readonly char[] Latin = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray();
+	private static readonly char[] Digit = "0123456789".ToCharArray();
+	private static readonly char[] Symbol = "`~!@#$%^&*()_+-=[]{}\\|;':\",./<>?".ToCharArray();
 
 	private readonly IPasswordGenerator generator;
 	private readonly IPasswordStrengthCalculator strength;
+
 	public MainViewModel(IPasswordGenerator generator, IPasswordStrengthCalculator strength, IConfigurationProvider config)
 	{
 		this.generator = generator;
@@ -69,50 +69,44 @@ public partial class MainViewModel : ObservableObject
 	[ObservableProperty]
 	private string password = "";
 
-	[ObservableProperty]
-	private string? selectedCopiedPassword;
-	partial void OnSelectedCopiedPasswordChanged(string? value) => Copy(value);
-
-
 	[RelayCommand]
-	private void Copy(string? password)
+	private void Copy(string password)
 	{
-		password ??= Password;
 		if (string.IsNullOrWhiteSpace(password)) { return; }
 
 		Clipboard.SetText(password);
 		LatestAction = new(LogAction.Copy, password);
 
 		if (CopiedPasswords.Contains(password)) { return; }
-		CopiedPasswords.Insert(0, Password);
+		CopiedPasswords.Insert(0, password);
 	}
 
 	[RelayCommand]
 	private void Refresh()
 	{
-		string pool = "";
-		if (IsLatinEnabled) { pool += UpperLatin + LowerLatin; }
-		if (IsDigitEnabled) { pool += Digit; }
-		if (IsSymbolEnabled) { pool += Symbol; }
-		if (IsCustomSetEnabled) { pool += CustomSet; }
+		List<char> pool = [];
 
-		if (string.IsNullOrWhiteSpace(pool))
+		if (IsLatinEnabled) { pool.AddRange(Latin); }
+		if (IsDigitEnabled) { pool.AddRange(Digit); }
+		if (IsSymbolEnabled) { pool.AddRange(Symbol); }
+		if (IsCustomSetEnabled) { pool.AddRange(CustomSet); }
+
+		if (pool.Count == 0)
 		{
 			Password = "";
 			return;
 		}
 
-		char[] uniquePool = pool.ToCharArray().Distinct().ToArray();
+		IEnumerable<char> uniquePool = pool.Distinct();
 
-		Password = new(generator.GeneratePassword(uniquePool, Length));
-		IsPasswordConfigWeak = strength.IsPasswordWeak(Length, uniquePool.Length);
+		Password = generator.GeneratePassword(uniquePool, Length);
+		IsPasswordConfigWeak = strength.IsPasswordWeak(Length, uniquePool.Count());
 		LatestAction = new(LogAction.Generation, Password);
 	}
 
 	[RelayCommand]
-	private void Remove(string? password)
+	private void Remove(string password)
 	{
-		if (password is null) { return; }
 		CopiedPasswords.Remove(password);
 	}
 }

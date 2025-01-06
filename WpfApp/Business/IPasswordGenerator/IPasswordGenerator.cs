@@ -2,5 +2,5 @@
 
 public interface IPasswordGenerator
 {
-	public char[] GeneratePassword(char[] characters, int length);
+	public string GeneratePassword(IEnumerable<char> characters, int length);
 }
