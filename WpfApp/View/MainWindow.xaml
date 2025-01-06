@@ -38,7 +38,7 @@
                  IsReadOnly="True" IsReadOnlyCaretVisible="True"
                  FontSize="14" FontFamily="Cascadia Code,Courier New"/>
 
-                <Button Grid.Column="1" Content="{x:Static p:Resources.Copy}" Padding="8,0" Margin="2,0" Command="{Binding CopyCommand}"/>
+                <Button Grid.Column="1" Content="{x:Static p:Resources.Copy}" Padding="8,0" Margin="2,0" CommandParameter="{Binding Password}" Command="{Binding CopyCommand}"/>
                 <Button Grid.Column="2" Content="{x:Static p:Resources.New}" Padding="8,0" Command="{Binding RefreshCommand}"/>
             </Grid>
 
@@ -127,6 +127,9 @@
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding LatestAction.Action}" Value="{x:Static local:LogAction.Generation}">
                                     <Setter Property="Text" Value="{Binding LatestAction.Password, StringFormat={x:Static p:Resources.GeneratedPasswordLog}}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding LatestAction.Action}" Value="{x:Static local:LogAction.Removal}">
+                                    <Setter Property="Text" Value="{Binding LatestAction.Password, StringFormat={x:Static p:Resources.RemovedPasswordLog}}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

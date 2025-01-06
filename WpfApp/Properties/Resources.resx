@@ -181,6 +181,10 @@
     <value>Remove</value>
     <comment>History: Remove password button</comment>
   </data>
+  <data name="RemovedPasswordLog" xml:space="preserve">
+    <value>Removed password {0}</value>
+    <comment>Statusbar: message</comment>
+  </data>
   <data name="Symbol" xml:space="preserve">
     <value>Symbols</value>
     <comment>Options: character pool</comment>
