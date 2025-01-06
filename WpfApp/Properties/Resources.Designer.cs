@@ -205,6 +205,15 @@ namespace Maiswan.Passwhat.WpfApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Removed password {0}.
+        /// </summary>
+        public static string RemovedPasswordLog {
+            get {
+                return ResourceManager.GetString("RemovedPasswordLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Symbols.
         /// </summary>
         public static string Symbol {

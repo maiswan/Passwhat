@@ -4,4 +4,5 @@ public enum LogAction
 {
 	Copy,
 	Generation,
+	Removal,
 }
