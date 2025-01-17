@@ -34,7 +34,7 @@ public partial class MainViewModel : ObservableObject
 		Refresh();
 	}
 
-	public ObservableCollection<string> CopiedPasswords { get; } = [];
+	public ObservableCollection<PasswordEntry> CopiedPasswords { get; } = [];
 
 	[ObservableProperty]
 	private string customSet;
@@ -70,15 +70,22 @@ public partial class MainViewModel : ObservableObject
 	private string password = "";
 
 	[RelayCommand]
-	private void Copy(string password)
+	private void CopyActivePassword()
 	{
-		if (string.IsNullOrWhiteSpace(password)) { return; }
+		PasswordEntry entry = new(Password, IsPasswordConfigWeak);
+		CopyEntry(entry);
+	}
 
-		Clipboard.SetText(password);
-		LatestAction = new(LogAction.Copy, password);
+	[RelayCommand]
+	private void CopyEntry(PasswordEntry entry)
+	{
+		if (string.IsNullOrWhiteSpace(entry.Password)) { return; }
 
-		if (CopiedPasswords.Contains(password)) { return; }
-		CopiedPasswords.Insert(0, password);
+		Clipboard.SetText(entry.Password);
+		LatestAction = new(LogAction.Copy, entry);
+
+		if (CopiedPasswords.Contains(entry)) { return; }
+		CopiedPasswords.Insert(0, entry);
 	}
 
 	[RelayCommand]
@@ -101,11 +108,13 @@ public partial class MainViewModel : ObservableObject
 
 		Password = generator.GeneratePassword(uniquePool, Length);
 		IsPasswordConfigWeak = strength.IsPasswordWeak(Length, uniquePool.Count());
-		LatestAction = new(LogAction.Generation, Password);
+
+		PasswordEntry entry = new(Password, IsPasswordConfigWeak);
+		LatestAction = new(LogAction.Generation, entry);
 	}
 
 	[RelayCommand]
-	private void Remove(string password)
+	private void RemoveEntry(PasswordEntry password)
 	{
 		CopiedPasswords.Remove(password);
 		LatestAction = new(LogAction.Removal, password);
