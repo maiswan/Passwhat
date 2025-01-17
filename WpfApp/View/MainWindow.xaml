@@ -143,6 +143,9 @@
                                 <DataTrigger Binding="{Binding LatestAction.Action}" Value="{x:Static local:LogAction.Generation}">
                                     <Setter Property="Text" Value="{Binding LatestAction.Password, StringFormat={x:Static p:Resources.GeneratedPasswordLog}}"/>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding LatestAction.Action}" Value="{x:Static local:LogAction.Removal}">
+                                    <Setter Property="Text" Value="{Binding LatestAction.Password, StringFormat={x:Static p:Resources.RemovedPasswordLog}}"/>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
