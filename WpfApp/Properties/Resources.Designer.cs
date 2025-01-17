@@ -196,11 +196,29 @@ namespace Maiswan.Passwhat.WpfApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ⚠.
+        /// </summary>
+        public static string PasswordWeakShort {
+            get {
+                return ResourceManager.GetString("PasswordWeakShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
         public static string Remove {
             get {
                 return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removed password {0}.
+        /// </summary>
+        public static string RemovedPasswordLog {
+            get {
+                return ResourceManager.GetString("RemovedPasswordLog", resourceCulture);
             }
         }
         

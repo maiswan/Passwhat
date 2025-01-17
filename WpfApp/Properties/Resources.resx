@@ -177,9 +177,17 @@
     <value>Weak password</value>
     <comment>Main: warning</comment>
   </data>
+  <data name="PasswordWeakShort" xml:space="preserve">
+    <value>⚠</value>
+    <comment>History: weak warning</comment>
+  </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
     <comment>History: Remove password button</comment>
+  </data>
+  <data name="RemovedPasswordLog" xml:space="preserve">
+    <value>Removed password {0}</value>
+    <comment>Statusbar: message</comment>
   </data>
   <data name="Symbol" xml:space="preserve">
     <value>Symbols</value>
