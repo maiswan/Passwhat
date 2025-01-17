@@ -117,5 +117,6 @@ public partial class MainViewModel : ObservableObject
 	private void RemoveEntry(PasswordEntry password)
 	{
 		CopiedPasswords.Remove(password);
+		LatestAction = new(LogAction.Removal, password);
 	}
 }
