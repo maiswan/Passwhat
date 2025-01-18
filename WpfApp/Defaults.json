@@ -5,5 +5,7 @@
   "IsDigitEnabled": true,
   "IsSymbolEnabled": true,
   "IsCustomSetEnabled": false,
-  "Culture": "zh-hk"
+  "Culture": "",
+  "CopyPasswordOnStartup": false,
+  "SuppressCloseDialog": false
 }

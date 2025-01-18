@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "Length": {
+      "type": "integer"
+    },
+    "CustomSet": {
+      "type": "string"
+    },
+    "IsLatinEnabled": {
+      "type": "boolean"
+    },
+    "IsDigitEnabled": {
+      "type": "boolean"
+    },
+    "IsSymbolEnabled": {
+      "type": "boolean"
+    },
+    "IsCustomSetEnabled": {
+      "type": "boolean"
+    },
+    "Culture": {
+      "type": "string"
+    },
+    "CopyPasswordOnStartup": {
+      "type": "boolean"
+    },
+    "SuppressCloseDialog": {
+      "type": "boolean"
+    }
+  }
+}

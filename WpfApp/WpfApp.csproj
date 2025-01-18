@@ -12,7 +12,7 @@
     <Company></Company>
     <Product></Product>
     <Authors>maiswan</Authors>
-	  <Version>2.1.0.0</Version>
+	  <Version>2.2.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +37,9 @@
 
   <ItemGroup>
     <None Update="Defaults.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Defaults.schema.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

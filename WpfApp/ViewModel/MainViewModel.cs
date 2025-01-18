@@ -30,6 +30,7 @@ public partial class MainViewModel : ObservableObject
 		IsDigitEnabled = config.Configuration.IsDigitEnabled;
 		IsSymbolEnabled = config.Configuration.IsSymbolEnabled;
 		IsCustomSetEnabled = config.Configuration.IsCustomSetEnabled;
+		copyPasswordOnStartup = config.Configuration.CopyPasswordOnStartup;
 
 		Refresh();
 	}
@@ -68,6 +69,9 @@ public partial class MainViewModel : ObservableObject
 
 	[ObservableProperty]
 	private string password = "";
+
+	private readonly bool copyPasswordOnStartup;
+	private bool isFirstPassword = true;
 
 	[RelayCommand]
 	private void CopyActivePassword()
@@ -111,6 +115,12 @@ public partial class MainViewModel : ObservableObject
 
 		PasswordEntry entry = new(Password, IsPasswordConfigWeak);
 		LatestAction = new(LogAction.Generation, entry);
+
+		if (isFirstPassword && copyPasswordOnStartup)
+		{
+			CopyActivePassword();
+			isFirstPassword = false;
+		}
 	}
 
 	[RelayCommand]

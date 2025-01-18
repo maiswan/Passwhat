@@ -9,4 +9,6 @@ public record Configurations
 	public int Length { get; init; } = 8;
 	public string Culture { get; init; } = "";
 	public string CustomSet { get; init; } = "";
+	public bool CopyPasswordOnStartup { get; init; } = false;
+	public bool SuppressCloseDialog { get; init; } = false;
 }
