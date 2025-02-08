@@ -31,6 +31,8 @@ public partial class MainViewModel : ObservableObject
 
 	public ObservableCollection<PasswordEntry> CopiedPasswords { get; } = [];
 
+	private bool isFirstPassword = true;
+
 	[ObservableProperty]
 	private bool isPasswordConfigWeak;
 
@@ -73,7 +75,7 @@ public partial class MainViewModel : ObservableObject
 		LogEntry action = new(LogAction.Generation, entry);
 		WeakReferenceMessenger.Default.Send(new LogEntryChangedMessage(action));
 
-		if (isFirstPassword && copyPasswordOnStartup)
+		if (isFirstPassword && config.CopyPasswordOnStartup)
 		{
 			CopyActivePassword();
 			isFirstPassword = false;
