@@ -39,6 +39,9 @@ public partial class MainViewModel : ObservableObject
 	[ObservableProperty]
 	private string password = "";
 
+	private readonly bool copyPasswordOnStartup;
+	private bool isFirstPassword = true;
+
 	[RelayCommand]
 	private void CopyActivePassword()
 	{
