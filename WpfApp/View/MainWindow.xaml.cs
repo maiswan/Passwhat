@@ -9,20 +9,19 @@ namespace Maiswan.Passwhat.WpfApp;
 /// </summary>
 public partial class MainWindow : Window
 {
-	private readonly MainViewModel viewModel;
 	private readonly Configurations config;
+	private readonly IHistoryProvider history;
 
 	public MainWindow()
 	{
 		InitializeComponent();
-		viewModel = App.Current.Services.GetRequiredService<MainViewModel>();
 		config = App.Current.Services.GetRequiredService<IConfigurationProvider>().Configuration;
-		DataContext = viewModel;
+		history = App.Current.Services.GetRequiredService<IHistoryProvider>();
 	}
 
 	private void Window_Closing(object sender, CancelEventArgs e)
 	{
-		if (viewModel.CopiedPasswords.Count == 0) { return; }
+		if (history.Passwords.Count == 0) { return; }
 		if (config.SuppressCloseDialog) { return; }
 
 		MessageBoxResult result = MessageBox.Show(

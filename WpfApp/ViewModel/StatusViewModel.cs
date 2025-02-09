@@ -9,7 +9,7 @@ public partial class StatusViewModel : ObservableObject, IRecipient<LogEntryChan
 	public static Version? Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
 	[ObservableProperty]
-	private LogEntry latestAction;
+	private LogEntry? latestAction;
 
 	public StatusViewModel()
 	{

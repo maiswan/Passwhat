@@ -32,10 +32,10 @@ public partial class App : Application
 		services.AddSingleton<IHistoryProvider, MemoryHistorySetProvider>();
 		services.AddTransient<IPasswordGenerator, CryptoPasswordGenerator>();
 		services.AddTransient<IPasswordStrengthCalculator, EntropyCalculator>();
-		services.AddTransient<MainViewModel>();
 		services.AddTransient<MainOptionsViewModel>();
 		services.AddTransient<HistoryViewModel>();
 		services.AddTransient<StatusViewModel>();
+		services.AddTransient<PasswordViewModel>();
 
         return services.BuildServiceProvider();
     }

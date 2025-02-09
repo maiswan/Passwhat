@@ -1,13 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 
 namespace Maiswan.Passwhat.WpfApp;
 
-public partial class MainViewModel : ObservableObject
+public partial class PasswordViewModel : ObservableObject
 {
 	private static readonly char[] Latin = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray();
 	private static readonly char[] Digit = "0123456789".ToCharArray();
@@ -19,7 +18,7 @@ public partial class MainViewModel : ObservableObject
 
 	private readonly Configurations config;
 
-	public MainViewModel(IPasswordGenerator generator, IPasswordStrengthCalculator strength, IConfigurationProvider config, IHistoryProvider history)
+	public PasswordViewModel(IPasswordGenerator generator, IPasswordStrengthCalculator strength, IConfigurationProvider config, IHistoryProvider history)
 	{
 		this.generator = generator;
 		this.strength = strength;
@@ -29,8 +28,6 @@ public partial class MainViewModel : ObservableObject
 		Refresh();
 	}
 
-	public ObservableCollection<PasswordEntry> CopiedPasswords { get; } = [];
-
 	private bool isFirstPassword = true;
 
 	[ObservableProperty]
@@ -38,9 +35,6 @@ public partial class MainViewModel : ObservableObject
 
 	[ObservableProperty]
 	private string password = "";
-
-	private readonly bool copyPasswordOnStartup;
-	private bool isFirstPassword = true;
 
 	[RelayCommand]
 	private void CopyActivePassword()
