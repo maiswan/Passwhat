@@ -28,10 +28,14 @@ public partial class App : Application
     {
         ServiceCollection services = new();
 
-        services.AddSingleton<IPasswordGenerator, CryptoPasswordGenerator>();
-		services.AddSingleton<IPasswordStrengthCalculator, EntropyCalculator>();
 		services.AddSingleton<IConfigurationProvider, JsonConfigurationProvider>();
-        services.AddTransient<MainViewModel>();
+		services.AddSingleton<IHistoryProvider, MemoryHistorySetProvider>();
+		services.AddTransient<IPasswordGenerator, CryptoPasswordGenerator>();
+		services.AddTransient<IPasswordStrengthCalculator, EntropyCalculator>();
+		services.AddTransient<MainOptionsViewModel>();
+		services.AddTransient<HistoryViewModel>();
+		services.AddTransient<StatusViewModel>();
+		services.AddTransient<PasswordViewModel>();
 
         return services.BuildServiceProvider();
     }
