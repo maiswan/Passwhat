@@ -14,7 +14,7 @@
         
         <local:PasswordUserControl Margin="24,12" DockPanel.Dock="Top"/>
 
-        <ScrollViewer Margin="24,0,24,8" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Margin="24,0" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <local:MainOptions/>
                 <local:History/>

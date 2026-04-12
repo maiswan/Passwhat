@@ -154,7 +154,7 @@
     <comment>Statusbar: message</comment>
   </data>
   <data name="Latin" xml:space="preserve">
-    <value>English letters</value>
+    <value>Letters</value>
     <comment>Options: character pool</comment>
   </data>
   <data name="Length" xml:space="preserve">
